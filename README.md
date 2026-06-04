@@ -17,29 +17,29 @@
 
 ---
 
-## 📌 Giới thiệu
+##  Giới thiệu
 
 **EduVNU** (hay *EduHub*) là nền tảng e-learning full-stack được xây dựng để phục vụ sinh viên và giảng viên Đại học Quốc gia Việt Nam. Hệ thống hỗ trợ toàn bộ vòng đời học tập: từ đăng ký khóa học, thanh toán qua VNPAY/Stripe, học qua video YouTube, theo dõi tiến độ real-time, đến cấp chứng chỉ tự động.
 
 ---
 
-## ✨ Tính năng
+##  Tính năng
 
 | Nhóm | Chi tiết |
 |------|----------|
-| 🔐 **Auth** | Đăng ký / Đăng nhập, Google OAuth, JWT auto-refresh, reset mật khẩu qua email |
-| 📚 **Khóa học** | Danh sách, tìm kiếm, lọc theo danh mục / trình độ / giá, xem chi tiết |
-| 🎓 **Bằng cấp** | Chương trình degree multi-module có video & tài liệu |
-| 🛒 **Cart & Checkout** | Giỏ hàng, thanh toán VNPAY (IPN webhook) + Stripe |
-| 📈 **Tiến độ** | Heartbeat buffer ghi thời gian học vào RAM → flush 5 phút/lần vào DB |
-| 📜 **Chứng chỉ** | Tự động tạo certificate PDF + QR code khi hoàn thành khóa học |
-| 🔔 **Thông báo** | Real-time notification bell (order paid / course approved / rejected) |
-| 👩‍🏫 **Giảng viên** | Dashboard, tạo/quản lý khóa học, xem học viên, analytics doanh thu, rút tiền |
-| 🛡️ **Admin** | Duyệt khóa học, quản lý người dùng |
+|  **Auth** | Đăng ký / Đăng nhập, Google OAuth, JWT auto-refresh, reset mật khẩu qua email |
+|  **Khóa học** | Danh sách, tìm kiếm, lọc theo danh mục / trình độ / giá, xem chi tiết |
+|  **Bằng cấp** | Chương trình degree multi-module có video & tài liệu |
+|  **Cart & Checkout** | Giỏ hàng, thanh toán VNPAY (IPN webhook) + Stripe |
+|  **Tiến độ** | Heartbeat buffer ghi thời gian học vào RAM → flush 5 phút/lần vào DB |
+|  **Chứng chỉ** | Tự động tạo certificate PDF + QR code khi hoàn thành khóa học |
+|  **Thông báo** | Real-time notification bell (order paid / course approved / rejected) |
+|  **Giảng viên** | Dashboard, tạo/quản lý khóa học, xem học viên, analytics doanh thu, rút tiền |
+|  **Admin** | Duyệt khóa học, quản lý người dùng |
 
 ---
 
-## 🏗️ Kiến trúc
+##  Kiến trúc
 
 ### Tech Stack
 
@@ -117,9 +117,9 @@ EDU/
 
 ---
 
-## ⚡ Luồng nghiệp vụ
+##  Luồng nghiệp vụ
 
-### 🔐 Authentication Flow
+###  Authentication Flow
 ```
 User nhập credentials
   → POST /api/v1/accounts/login/
@@ -134,7 +134,7 @@ Token hết hạn (401):
   → Nếu refresh cũng hết → logout + redirect /login
 ```
 
-### 🛒 Enrollment & Payment Flow
+###  Enrollment & Payment Flow
 ```
 1. Add to Cart      → POST /api/v1/cart/items/
 2. View Cart        → GET  /api/v1/cart/my_cart/
@@ -150,7 +150,7 @@ Token hết hạn (401):
 7. Frontend /payment-return → hiển thị thành công
 ```
 
-### 📊 Learning & Heartbeat Flow
+###  Learning & Heartbeat Flow
 ```
 1. User vào /learn/:courseId (YouTube iframe)
 2. Mỗi 30-60s: POST /api/v1/progress/heartbeat/ { lesson_id, seconds }
@@ -159,7 +159,7 @@ Token hết hạn (401):
 5. Hoàn thành 100% → Certificate tự động available
 ```
 
-### 👩‍🏫 Instructor Lifecycle
+###  Instructor Lifecycle
 ```
 Tạo khóa học → Thêm Chapter + Lesson
   → Submit review (status: pending)
@@ -171,7 +171,7 @@ Tạo khóa học → Thêm Chapter + Lesson
 
 ---
 
-## 📦 Cài đặt
+##  Cài đặt
 
 ### Yêu cầu hệ thống
 - Node.js 18+
@@ -223,7 +223,7 @@ docker-compose up --build
 
 ---
 
-## 🌐 API Endpoints
+##  API Endpoints
 
 ### Accounts `/api/v1/accounts/`
 | Method | Endpoint | Mô tả |
@@ -253,7 +253,7 @@ docker-compose up --build
 
 ---
 
-## 🗄️ Core Data Model
+##  Core Data Model
 
 | Entity | Mô tả |
 |--------|-------|
@@ -270,7 +270,7 @@ docker-compose up --build
 
 ---
 
-## 💪 Điểm mạnh
+##  Điểm mạnh
 
 - ✅ **Full-stack hoàn chỉnh** — Frontend + Backend + DB + Deploy trong 1 repo
 - ✅ **JWT auto-refresh** — Người dùng không bao giờ bị kick giữa session
@@ -284,9 +284,9 @@ docker-compose up --build
 
 ---
 
-## 🚧 Roadmap — Còn thiếu để đạt cấp Production
+##  Roadmap — Còn thiếu để đạt cấp Production
 
-### 🔴 Bắt buộc (Critical)
+###  Bắt buộc (Critical)
 
 | Hạng mục | Hiện trạng | Cần làm |
 |----------|-----------|---------|
@@ -297,7 +297,7 @@ docker-compose up --build
 | **Rate Limiting** | Chưa có | `django-ratelimit` hoặc Nginx `limit_req` |
 | **Input Validation** | Partial | Validate đầu vào ở tất cả API, Serializer `validate_*` |
 
-### 🟡 Quan trọng (Important)
+###  Quan trọng (Important)
 
 | Hạng mục | Mô tả |
 |----------|-------|
@@ -310,7 +310,7 @@ docker-compose up --build
 | **Caching** | Redis cache cho API response phổ biến (course list, categories) |
 | **Pagination** | Cursor-based pagination cho bảng lớn |
 
-### 🟢 Nâng cao (Nice to have)
+###  Nâng cao (Nice to have)
 
 | Hạng mục | Mô tả |
 |----------|-------|
@@ -323,7 +323,7 @@ docker-compose up --build
 
 ---
 
-## 📁 Tài liệu kỹ thuật
+##  Tài liệu kỹ thuật
 
 | File | Nội dung |
 |------|----------|
@@ -334,7 +334,7 @@ docker-compose up --build
 
 ---
 
-## 👥 Đóng góp
+##  Đóng góp
 
 1. Fork repo
 2. Tạo branch: `git checkout -b feature/ten-tinh-nang`
@@ -344,12 +344,12 @@ docker-compose up --build
 
 ---
 
-## 📄 License
+##  License
 
 MIT License — © 2026 EduVNU Team / VNU
 
 ---
 
 <div align="center">
-  <sub>Built with ❤️ for VNU students · Stack: React + Django + MSSQL + Docker</sub>
+  <sub>Built with love for VNU students · Stack: React + Django + MSSQL + Docker</sub>
 </div>
