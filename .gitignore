@@ -50,9 +50,12 @@ DATA_KAGGLE/archive.zip
 DATA_KAGGLE/archive/
 
 # Migrations (optional - giữ lại để deploy dễ hơn)
-# VNU/apps/*/migrations/
+# backend/apps/*/migrations/
 
-# Pycache trong migrations
-VNU/apps/*/migrations/__pycache__/
-VNU/apps/*/__pycache__/
-VNU/config/__pycache__/
+# Scratch / one-off scripts
+scratch_*.py
+*_scratch.py
+
+# Pycache (all subdirectories)
+**/__pycache__/
+**/migrations/__pycache__/
