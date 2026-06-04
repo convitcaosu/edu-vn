@@ -1,0 +1,106 @@
+version: "3.9"
+
+# ══════════════════════════════════════════════════════════════
+# EduVNU — Docker Compose
+#
+# Services:
+#   backend  → Django API (gunicorn :8000)
+#   frontend → React SPA served by Nginx (:80)
+#
+# Database: MS SQL Server chạy trên máy Windows (KHÔNG trong Docker)
+# Trước khi chạy: xem hướng dẫn trong README hoặc cuối file này.
+#
+# Chạy:
+#   docker-compose up --build
+#
+# Dừng:
+#   docker-compose down
+# ══════════════════════════════════════════════════════════════
+
+services:
+
+  # ── Backend: Django REST API ──────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: eduvnu_backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    environment:
+      # host.docker.internal trỏ về máy Windows host (SQL Server)
+      - DB_HOST=${DB_HOST:-host.docker.internal}
+      - DB_NAME=${DB_NAME:-Courses}
+      - DB_PORT=${DB_PORT:-1433}
+      - DB_USER=${DB_USER:-sa}
+      - DB_PASSWORD=${DB_PASSWORD:-YourStrong!Password}
+      - DEBUG=False
+    volumes:
+      # Media files (ảnh upload) được persist
+      - backend_media:/app/media
+    ports:
+      # Expose 8000 để có thể test API trực tiếp nếu cần
+      - "8000:8000"
+    extra_hosts:
+      # Cho phép container truy cập SQL Server trên máy Windows
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/courses/courses/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  # ── Frontend: React SPA (Nginx) ───────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # API calls từ browser → Nginx proxy → backend
+        # Dùng /api/v1 (relative URL) để Nginx handle proxy
+        VITE_API_URL: /api/v1
+    container_name: eduvnu_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+# ── Volumes ───────────────────────────────────────────────────
+volumes:
+  backend_media:
+    driver: local
+
+# ══════════════════════════════════════════════════════════════
+# HƯỚNG DẪN TRƯỚC KHI CHẠY
+# ══════════════════════════════════════════════════════════════
+#
+# 1. Tạo SQL Server Login (chạy trong SSMS):
+#    CREATE LOGIN eduvnu_user WITH PASSWORD = 'YourStrong!Password';
+#    USE Courses;
+#    CREATE USER eduvnu_user FOR LOGIN eduvnu_user;
+#    ALTER ROLE db_owner ADD MEMBER eduvnu_user;
+#
+# 2. Bật SQL Server Authentication:
+#    SSMS → chuột phải server → Properties → Security
+#    → SQL Server and Windows Authentication mode → OK
+#    → Restart SQL Server service
+#
+# 3. Bật TCP/IP port 1433:
+#    SQL Server Configuration Manager → SQL Server Network Configuration
+#    → Protocols for MSSQLSERVER → TCP/IP → Enable
+#    → Restart SQL Server service
+#
+# 4. Tạo file backend/.env từ backend/.env.example:
+#    copy backend\.env.example backend\.env
+#    Điền DB_USER, DB_PASSWORD đúng với bước 1
+#
+# 5. Chạy:
+#    docker-compose up --build
+#
+# Truy cập:
+#   Frontend: http://localhost
+#   Backend API: http://localhost:8000/api/v1/
+# ══════════════════════════════════════════════════════════════

@@ -1,0 +1,29 @@
+# Frontend .dockerignore
+# Loại bỏ file không cần thiết khi build Docker image
+
+# Dependencies (sẽ được cài lại trong container)
+node_modules/
+
+# Build output (sẽ được tạo trong container)
+dist/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Development
+.vscode/
+.idea/
+*.swp
+
+# Git
+.git/
+.gitignore
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test
+coverage/

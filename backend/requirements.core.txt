@@ -1,0 +1,44 @@
+# ──────────────────────────────────────────────────────────────
+# EduVNU Backend — Core Dependencies (dùng cho Docker)
+# Chỉ chứa những gì web app thực sự cần.
+# Package ML/AI nặng (langchain, chromadb, spacy...) bị loại bỏ.
+# ──────────────────────────────────────────────────────────────
+
+# Django & REST
+Django==6.0.3
+djangorestframework==3.17.0
+djangorestframework_simplejwt==5.5.1
+django-cors-headers
+whitenoise
+
+# Database — MS SQL Server
+mssql-django
+pyodbc==5.3.0
+
+# Auth
+PyJWT==2.12.1
+cryptography==46.0.5
+
+# Env & Config
+python-dotenv==1.2.2
+
+# Server
+gunicorn
+uvicorn==0.42.0
+
+# Payment
+stripe
+
+# PDF & QR Code (Certificates)
+reportlab
+qrcode
+pillow==12.1.1
+
+# Celery (background jobs)
+celery
+redis
+django-celery-beat
+
+# Utils
+requests==2.32.5
+python-dateutil==2.9.0.post0

@@ -1,0 +1,57 @@
+# Backend .dockerignore
+# Loại bỏ file không cần thiết khi build Docker image
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Database files
+*.sqlite3
+db.sqlite3
+
+# Environment files (sẽ được mount qua docker-compose env_file)
+.env
+
+# Development tools
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Test files
+tests/
+*/tests/
+
+# Node (nếu có)
+node_modules/
+
+# Logs
+*.log
+logs/
+
+# Media files (mounted as volume)
+media/
+
+# Static collected (sẽ được tạo trong container)
+staticfiles/
+
+# Scripts không cần thiết
+scripts/
+scratch_*.py
+seed_*.py
+fix_*.py
